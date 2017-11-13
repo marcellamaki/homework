@@ -26,6 +26,28 @@ window.onload = function(event) {
       // console.log(smoker)
     })
 
-    
+    let addButton = form.querySelector("button.add")
+    console.log(addButton)
+
+    addButton.addEventListener("click", createHouseholdMember)
+
+    function createHouseholdMember(event) {
+    event.preventDefault()
+      householdMember = new Object
+      householdMember.age = ageField
+      householdMember.relationship = relationshipOption
+      householdMember.smoker = smoker
+      let newMember = "Age: " + householdMember.age + ", Relationship: " + householdMember.relationship + ", Smoker: " + householdMember.smoker
+      myHousehold.push(newMember)
+      console.log(myHousehold)
+      // addMemberToDisplay(householdMember)
+    }
+
+    function addMemberToDisplay(householdMember) {
+
+        }
+      // console.log(newMember)
+
+
 
   }
