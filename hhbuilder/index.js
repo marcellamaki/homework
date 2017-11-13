@@ -40,12 +40,15 @@ window.onload = function(event) {
       let newMember = "Age: " + householdMember.age + ", Relationship: " + householdMember.relationship + ", Smoker: " + householdMember.smoker
       myHousehold.push(newMember)
       console.log(myHousehold)
-      // addMemberToDisplay(householdMember)
+      addMembertoHousehold(newMember)
     }
 
-    function addMemberToDisplay(householdMember) {
-
-        }
+    function addMembertoHousehold(member) {
+        let thisMember = document.createTextNode(member)
+        let linebreak = document.createElement("br")
+        document.body.appendChild(thisMember)
+        document.body.appendChild(linebreak)
+    }
       // console.log(newMember)
 
 
