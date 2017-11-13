@@ -29,7 +29,6 @@ window.onload = function(event) {
     // CREATE
 
     let addButton = form.querySelector("button.add")
-    console.log(addButton)
 
     addButton.addEventListener("click", formValidation)
 
@@ -47,11 +46,16 @@ window.onload = function(event) {
     // helper methods:
 
     function createHouseholdMember() {
+      //create an object to be used later to send to back end
+      householdMember = new Object
+        householdMember.age = ageField
+        householdMember.relationship = relationshipOption
+        householdMember.smoker = smoker
+        myHousehold.push(householdMember)
       //create a string add to household list
       let newMember = "Age: " + ageField + ", Relationship: " + relationshipOption + ", Smoker: " + smoker
-      myHousehold.push(newMember)
       clearForm()
-      addMembertoHousehold(newMember)
+      addMemberToHousehold(newMember)
     }
 
     function clearForm() {
@@ -63,15 +67,31 @@ window.onload = function(event) {
 
     //READ
 
-    function addMembertoHousehold(member) {
+    function addMemberToHousehold(member) {
         // to add household member to the DOM
-        let thisMember = document.createTextNode(member)
-        let linebreak = document.createElement("br")
-        document.body.appendChild(thisMember)
-        document.body.appendChild(linebreak)
+        // create the text for the member
+        let memberList = document.createElement("UL")
+        let thisListItem = document.createElement("LI")
+        let memberText = document.createTextNode(member)
+        thisListItem.appendChild(memberText)
+
+        //create delete button
+        let deleteButton = document.createElement("BUTTON")
+        let deleteText= document.createTextNode("Delete")
+        deleteButton.appendChild(deleteText)
+        deleteButton.setAttribute("id", "Delete")
+        // append to the screen
+        memberList.appendChild(thisListItem).appendChild(deleteButton)
+        document.body.appendChild(memberList)
+        deleteButton.addEventListener("click", deleteMemberFromHousehold)
     }
-      // console.log(newMember)
+
+    //DELETE
 
 
+     function deleteMemberFromHousehold(event) {
+       event.preventDefault()
+       event.target.parentNode.remove();
+     }
 
   }
