@@ -2,7 +2,7 @@
 window.onload = function(event) {
     //console.log("I'm connected!") - checking to make sure files are structured correctly and index.js file is accesssible in index.html
 
-    //adding event listeners to form items
+    // declare variables
     const myHousehold = []
 
     let form = document.forms[0];
@@ -11,39 +11,60 @@ window.onload = function(event) {
     let smoker;
     let householdList;
 
+    //adding event listeners to form items
     document.addEventListener("change", function(event) {
       ageField = form.querySelector('input[name="age"]').value;
-      // console.log(ageField) - checks that values are accurate
     })
 
     document.addEventListener("change", function(event) {
       relationshipOption = form.querySelector('select[name="rel"]').value;
-      // console.log(relationshipOption) - checks that values are accurate
     })
 
     document.addEventListener("change", function(event) {
       smoker = form.querySelector('input[name="smoker"]').checked;
-      // console.log(smoker)
     })
+
+    // CRUD actions
+
+    // CREATE
 
     let addButton = form.querySelector("button.add")
     console.log(addButton)
 
-    addButton.addEventListener("click", createHouseholdMember)
+    addButton.addEventListener("click", formValidation)
 
-    function createHouseholdMember(event) {
-    event.preventDefault()
-      householdMember = new Object
-      householdMember.age = ageField
-      householdMember.relationship = relationshipOption
-      householdMember.smoker = smoker
-      let newMember = "Age: " + householdMember.age + ", Relationship: " + householdMember.relationship + ", Smoker: " + householdMember.smoker
+    function formValidation(event) {
+      event.preventDefault()
+      if (isNaN(ageField) || ageField <= 0) {
+        alert("Please enter a valid age greater than 0 using digits")
+      } else if (relationshipOption === "") {
+        alert("Please select your relationship to this household member")
+      } else {
+        createHouseholdMember()
+      }
+    }
+
+    // helper methods:
+
+    function createHouseholdMember() {
+      //create a string add to household list
+      let newMember = "Age: " + ageField + ", Relationship: " + relationshipOption + ", Smoker: " + smoker
       myHousehold.push(newMember)
-      console.log(myHousehold)
+      clearForm()
       addMembertoHousehold(newMember)
     }
 
+    function clearForm() {
+      //resets form to blank
+      form.querySelector('input[name="age"]').value = ''
+      form.querySelector('select[name="rel"]').value = ''
+      form.querySelector('input[name="smoker"]').checked = false
+    }
+
+    //READ
+
     function addMembertoHousehold(member) {
+        // to add household member to the DOM
         let thisMember = document.createTextNode(member)
         let linebreak = document.createElement("br")
         document.body.appendChild(thisMember)
