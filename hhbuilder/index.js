@@ -51,7 +51,7 @@ window.onload = function(event) {
 
     function formValidation(event) {
       event.preventDefault()
-      if (isNaN(ageField) || ageField <= 0) {
+      if (ageField === '' || isNaN(ageField) || ageField <= 0) {
         alert("Please enter a valid age greater than 0 using digits")
       } else if (relationshipOption === "") {
         alert("Please select your relationship to this household member")
@@ -73,11 +73,11 @@ window.onload = function(event) {
         householdMember.id = id;
         id += 1; // one this id is taken, it must be incremented
         myHousehold.push(householdMember);
-        clearForm();
       addMemberToHousehold(householdMember);
+      clearForm(ageField, relationshipOption, smoker)
     }
 
-    function clearForm() {
+    function clearForm(ageField, relationshipOption, smoker) {
       //resets form to blank
       form.querySelector('input[name="age"]').value = "";
       form.querySelector('select[name="rel"]').value = "";
