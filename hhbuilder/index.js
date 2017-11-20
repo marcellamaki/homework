@@ -51,6 +51,7 @@ window.onload = function(event) {
       } else {
         // provided that the entry is valid, then create
         createHouseholdMember()
+
       }
     }
 
@@ -65,16 +66,16 @@ window.onload = function(event) {
         householdMember.id = id
         id += 1 // one this id is taken, it must be incremented
         myHousehold.push(householdMember)
-      clearForm()
+        form.reset()
       addMemberToHousehold(householdMember)
     }
 
-    function clearForm() {
-      //resets form to blank
-      form.querySelector('input[name="age"]').value = ''
-      form.querySelector('select[name="rel"]').value = ''
-      form.querySelector('input[name="smoker"]').checked = false
-    }
+    // function clearForm() {
+    //   //resets form to blank
+    //   form.querySelector('input[name="age"]').value = ''
+    //   form.querySelector('select[name="rel"]').value = ''
+    //   form.querySelector('input[name="smoker"]').checked = false
+    // }
 
     //READ
 
@@ -106,14 +107,15 @@ window.onload = function(event) {
 
      function deleteMemberFromHousehold(event) {
        event.preventDefault()
-       var deletedId = event.target.parentNode.id
+       deleteElement = event.target.parentNode
        // update the household by using the new array
-       updatedHousehold= myHousehold.filter(function(member, deletedId){
-         console.log(deletedId)
-         member.id !== deletedId
+       updatedHousehold= myHousehold.filter(function(member){
+        console.log(member)
+        return member.id != deleteElement.id
        })
-       console.log(myHousehold)
+       //reset myHousehold value
        myHousehold = updatedHousehold
+       console.log(myHousehold)
        event.target.parentNode.remove();
      }
 
