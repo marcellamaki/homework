@@ -3,13 +3,20 @@ window.onload = function(event) {
     //console.log("I'm connected!") - checking to make sure files are structured correctly and index.js file is accesssible in index.html
 
     // declare variables
-    const myHousehold = []
+    var myHousehold = [] // to hold an array of objects of all household members
 
-    let form = document.forms[0];
-    let ageField;
-    let relationshipOption;
-    let smoker;
-    let householdList;
+    // elements in the DOM that I need to work with
+    var form = document.forms[0];
+    var ageField; // form input values
+    var relationshipOption; // form input values
+    var smoker; // form input values
+    var id = 1; // id for each household member
+
+    var addButton = form.querySelector("button.add") //button
+    var submitButton = form.querySelector('button[type="submit"]') //button
+    var updatedHousehold
+
+
 
     //adding event listeners to form items
     document.addEventListener("change", function(event) {
@@ -24,13 +31,16 @@ window.onload = function(event) {
       smoker = form.querySelector('input[name="smoker"]').checked;
     })
 
+    // event listeners regarding adding and submitting
+    addButton.addEventListener("click", formValidation)
+    submitButton.addEventListener("click", submit)
+
+
     // CRUD actions
 
     // CREATE
 
-    let addButton = form.querySelector("button.add")
-
-    addButton.addEventListener("click", formValidation)
+    // First, before the person can be added, need to validate age and relationship option
 
     function formValidation(event) {
       event.preventDefault()
@@ -39,6 +49,7 @@ window.onload = function(event) {
       } else if (relationshipOption === "") {
         alert("Please select your relationship to this household member")
       } else {
+        // provided that the entry is valid, then create
         createHouseholdMember()
       }
     }
@@ -48,14 +59,14 @@ window.onload = function(event) {
     function createHouseholdMember() {
       //create an object to be used later to send to back end
       householdMember = new Object
-        householdMember.age = ageField
+        householdMember.age = parseInt(ageField)
         householdMember.relationship = relationshipOption
         householdMember.smoker = smoker
+        householdMember.id = id
+        id += 1 // one this id is taken, it must be incremented
         myHousehold.push(householdMember)
-      //create a string add to household list
-      let newMember = "Age: " + ageField + ", Relationship: " + relationshipOption + ", Smoker: " + smoker
       clearForm()
-      addMemberToHousehold(newMember)
+      addMemberToHousehold(householdMember)
     }
 
     function clearForm() {
@@ -67,22 +78,26 @@ window.onload = function(event) {
 
     //READ
 
-    function addMemberToHousehold(member) {
+    function addMemberToHousehold(householdMember) {
         // to add household member to the DOM
-        // create the text for the member
-        let memberList = document.createElement("UL")
-        let thisListItem = document.createElement("LI")
-        let memberText = document.createTextNode(member)
-        thisListItem.appendChild(memberText)
+        // create a string with the new information
+        var newMember = "Age: " + householdMember.age + ", Relationship: " + householdMember.relationship + ", Smoker: " + householdMember.smoker
+        //create a section to hold it
+        var memberListView = document.createElement("UL")
+        // create an element with text and a unique ID
+        var thisListItem = document.createElement("LI")
+        var thisMemberText = document.createTextNode(newMember)
+        thisListItem.appendChild(thisMemberText)
+        thisListItem.setAttribute("id", householdMember.id)
 
         //create delete button
-        let deleteButton = document.createElement("BUTTON")
-        let deleteText= document.createTextNode("Delete")
+        var deleteButton = document.createElement("BUTTON")
+        var deleteText= document.createTextNode("Delete")
         deleteButton.appendChild(deleteText)
         deleteButton.setAttribute("id", "Delete")
         // append to the screen
-        memberList.appendChild(thisListItem).appendChild(deleteButton)
-        document.body.appendChild(memberList)
+        memberListView.appendChild(thisListItem).appendChild(deleteButton)
+        submitButton.parentNode.insertBefore(memberListView, submitButton)
         deleteButton.addEventListener("click", deleteMemberFromHousehold)
     }
 
@@ -91,7 +106,31 @@ window.onload = function(event) {
 
      function deleteMemberFromHousehold(event) {
        event.preventDefault()
+       var deletedId = event.target.parentNode.id
+       // update the household by using the new array
+       updatedHousehold= myHousehold.filter(function(member, deletedId){
+         console.log(deletedId)
+         member.id !== deletedId
+       })
+       console.log(myHousehold)
+       myHousehold = updatedHousehold
        event.target.parentNode.remove();
+     }
+
+
+     //SUBMISSION
+
+
+     // select the <pre></pre>
+    var pre = document.body.querySelector('pre.debug')
+
+     function submit(event) {
+      event.preventDefault()
+      // serialize the JSON and create a Text Node
+      console.log(myHousehold)
+      var preview = document.createTextNode(JSON.stringify(myHousehold))
+      // insert into the HTML
+      pre.parentNode.insertBefore(preview, pre)
      }
 
   }
