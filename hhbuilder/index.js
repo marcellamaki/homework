@@ -23,7 +23,7 @@ window.onload = function(event) {
     var submitButton = form.querySelector('button[type="submit"]')
 
 
-    // ADD EVENT LISTENERS 
+    // ADD EVENT LISTENERS
 
     //adding event listeners to form items
     document.addEventListener("change", function(event) {
@@ -62,7 +62,7 @@ window.onload = function(event) {
       }
     }
 
-    // helper methods:
+    //create the object
 
     function createHouseholdMember() {
       //create an object to be used later to send to back end
