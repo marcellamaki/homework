@@ -59,63 +59,61 @@ window.onload = function(event) {
 
     function createHouseholdMember() {
       //create an object to be used later to send to back end
-      householdMember = new Object
-        householdMember.age = parseInt(ageField)
-        householdMember.relationship = relationshipOption
-        householdMember.smoker = smoker
-        householdMember.id = id
-        id += 1 // one this id is taken, it must be incremented
-        myHousehold.push(householdMember)
-        form.reset()
-      addMemberToHousehold(householdMember)
+      householdMember = new Object;
+        householdMember.age = parseInt(ageField);
+        householdMember.relationship = relationshipOption;
+        householdMember.smoker = smoker;
+        householdMember.id = id;
+        id += 1; // one this id is taken, it must be incremented
+        myHousehold.push(householdMember);
+        clearForm();
+      addMemberToHousehold(householdMember);
     }
 
-    // function clearForm() {
-    //   //resets form to blank
-    //   form.querySelector('input[name="age"]').value = ''
-    //   form.querySelector('select[name="rel"]').value = ''
-    //   form.querySelector('input[name="smoker"]').checked = false
-    // }
+    function clearForm() {
+      //resets form to blank
+      form.querySelector('input[name="age"]').value = "";
+      form.querySelector('select[name="rel"]').value = "";
+      form.querySelector('input[name="smoker"]').checked = false;
+    }
 
     //READ
 
     function addMemberToHousehold(householdMember) {
         // to add household member to the DOM
         // create a string with the new information
-        var newMember = "Age: " + householdMember.age + ", Relationship: " + householdMember.relationship + ", Smoker: " + householdMember.smoker
+        var newMember = "Age: " + householdMember.age + ", Relationship: " + householdMember.relationship + ", Smoker: " + householdMember.smoker;
         //create a section to hold it
-        var memberListView = document.createElement("UL")
+        var memberListView = document.createElement("UL");
         // create an element with text and a unique ID
-        var thisListItem = document.createElement("LI")
-        var thisMemberText = document.createTextNode(newMember)
-        thisListItem.appendChild(thisMemberText)
-        thisListItem.setAttribute("id", householdMember.id)
+        var thisListItem = document.createElement("LI");
+        var thisMemberText = document.createTextNode(newMember);
+        thisListItem.appendChild(thisMemberText);
+        thisListItem.setAttribute("id", householdMember.id);
 
         //create delete button
-        var deleteButton = document.createElement("BUTTON")
-        var deleteText= document.createTextNode("Delete")
-        deleteButton.appendChild(deleteText)
-        deleteButton.setAttribute("id", "Delete")
+        var deleteButton = document.createElement("BUTTON");
+        var deleteText= document.createTextNode("Delete");
+        deleteButton.appendChild(deleteText);
+        deleteButton.setAttribute("id", "Delete");
         // append to the screen
-        memberListView.appendChild(thisListItem).appendChild(deleteButton)
-        submitButton.parentNode.insertBefore(memberListView, submitButton)
-        deleteButton.addEventListener("click", deleteMemberFromHousehold)
+        memberListView.appendChild(thisListItem).appendChild(deleteButton);
+        submitButton.parentNode.insertBefore(memberListView, submitButton);
+        deleteButton.addEventListener("click", deleteMemberFromHousehold);
     }
 
     //DELETE
 
 
      function deleteMemberFromHousehold(event) {
-       event.preventDefault()
-       deleteElement = event.target.parentNode
+       event.preventDefault();
+       deleteElement = event.target.parentNode;
        // update the household by using the new array
        updatedHousehold= myHousehold.filter(function(member){
-        console.log(member)
         return member.id != deleteElement.id
-       })
+      });
        //reset myHousehold value
-       myHousehold = updatedHousehold
-       console.log(myHousehold)
+       myHousehold = updatedHousehold;
        event.target.parentNode.remove();
      }
 
@@ -124,15 +122,14 @@ window.onload = function(event) {
 
 
      // select the <pre></pre>
-    var pre = document.body.querySelector('pre.debug')
+    var pre = document.body.querySelector('pre.debug');
 
      function submit(event) {
-      event.preventDefault()
+      event.preventDefault();
       // serialize the JSON and create a Text Node
-      console.log(myHousehold)
-      var preview = document.createTextNode(JSON.stringify(myHousehold))
+      var preview = document.createTextNode(JSON.stringify(myHousehold));
       // insert into the HTML
-      pre.parentNode.insertBefore(preview, pre)
+      pre.parentNode.insertBefore(preview, pre);
      }
 
   }
