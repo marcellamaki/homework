@@ -1,22 +1,29 @@
-// your code goes here ...
 window.onload = function(event) {
     //console.log("I'm connected!") - checking to make sure files are structured correctly and index.js file is accesssible in index.html
 
-    // declare variables
+    // DECLARE VARIABLES
+
+    //for persistence
     var myHousehold = [] // to hold an array of objects of all household members
+    var updatedHousehold; // variable for temporarily holding updated values
 
-    // elements in the DOM that I need to work with
+    // elements in the DOM to work with
+
+    //form and input values
     var form = document.forms[0];
-    var ageField; // form input values
-    var relationshipOption; // form input values
-    var smoker; // form input values
-    var id = 1; // id for each household member
+    var ageField;
+    var relationshipOption;
+    var smoker;
 
-    var addButton = form.querySelector("button.add") //button
-    var submitButton = form.querySelector('button[type="submit"]') //button
-    var updatedHousehold
+    // id for each household member
+    var id = 1;
+
+    // buttons
+    var addButton = form.querySelector("button.add")
+    var submitButton = form.querySelector('button[type="submit"]')
 
 
+    // ADD EVENT LISTENERS 
 
     //adding event listeners to form items
     document.addEventListener("change", function(event) {
